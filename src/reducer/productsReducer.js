@@ -2,7 +2,7 @@ import {
 POPULATE_PRODUCTS_REQUEST,
 POPULATE_PRODUCTS_SUCCESS,
 POPULATE_PRODUCTS_ERROR
-} from '../components/productTypes'
+} from '../action/productsAction'
 
 const initialState = {
     loading: false,

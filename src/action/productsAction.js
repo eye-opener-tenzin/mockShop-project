@@ -1,10 +1,8 @@
 import axios from 'axios'
-import {
-    POPULATE_PRODUCTS_REQUEST,
-    POPULATE_PRODUCTS_SUCCESS,
-    POPULATE_PRODUCTS_ERROR
-} from '../components/productTypes'
 
+export const POPULATE_PRODUCTS_REQUEST = 'POPULATE_PRODUCTS_REQUEST'
+export const POPULATE_PRODUCTS_SUCCESS = 'POPULATE_PRODUCTS_SUCCESS'
+export const POPULATE_PRODUCTS_ERROR = 'POPULATE_PRODUCTS_ERROR'
 
 export const populateProductsRequest = () => {
     return {
