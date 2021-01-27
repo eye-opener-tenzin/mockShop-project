@@ -1,24 +1,35 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+
 import { fetchProducts } from '../action/productsAction';
 import '../index.css'
 
 
-function CategoriesList({ productData, fetchProducts }) {
+function CategoriesList( ) {
     
+    const dispatch = useDispatch();
     useEffect(() => {
-        fetchProducts()
-    }, [])
+        dispatch(fetchProducts());
+    }, []);
 
+    const productData = useSelector((state) => {
+        console.log(state);
+        return state.product.products;
+    })
 
+    if (productData === undefined) { 
+        return (
+            <h1>Loading</h1>
+        )
+    }
     return (
         
-            <div>
+            <div className="container">
                 {
-                    productData.products.map(product => 
-                        <div key={product.id}>
-                            <img className="project-image" src={product.image} alt="product-list" />
-                            <h3>{product.title}</h3>
+                    Object.keys(productData).map(categoryTitle => 
+                        <div className="contain-item"  key={categoryTitle}>
+                            <img className="project-image" src={productData[categoryTitle][0].image} alt="product-list" />
+                            <h3>{categoryTitle}</h3>
                         </div>
                     
                     )
@@ -28,20 +39,4 @@ function CategoriesList({ productData, fetchProducts }) {
     )
 }
 
-
-const mapStateToProps = state => {
-    return {
-        productData: state.product
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchProducts: () => dispatch(fetchProducts())
-    }
-}
-
-export default connect(
-    mapStateToProps, 
-    mapDispatchToProps
-    )(CategoriesList)
+export default CategoriesList;

@@ -10,17 +10,22 @@ const initialState = {
     error: ''
 }
 
-const reducer = (state = initialState, action)  => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case POPULATE_PRODUCTS_REQUEST: 
+        case POPULATE_PRODUCTS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
             }
         case POPULATE_PRODUCTS_SUCCESS:
+            const groupingCategory = action.payload.reduce((result, title) => {
+                result[title.category] ? result[title.category].push(title) : result[title.category] = [title];
+                return result;
+            }, {});
+            console.log(groupingCategory);
             return {
                 loading: false,
-                products: action.payload,
+                products: groupingCategory,
                 error: ''
             }
         case POPULATE_PRODUCTS_ERROR: 
