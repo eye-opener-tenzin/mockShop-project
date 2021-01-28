@@ -27,9 +27,11 @@ function CategoriesList( ) {
             <div className="container">
                 {
                     Object.keys(productData).map(categoryTitle => 
-                        <div className="contain-item"  key={categoryTitle}>
-                            <img className="project-image" src={productData[categoryTitle][0].image} alt="product-list" />
-                            <h3>{categoryTitle}</h3>
+                        <div key={categoryTitle}>
+                            <div className="contain-item">
+                                <img className="project-image" src={productData[categoryTitle][0].image} alt="product-list" />
+                            </div>
+                            <h3>{categoryTitle.charAt(0).toUpperCase() + categoryTitle.slice(1)}</h3>
                         </div>
                     
                     )
