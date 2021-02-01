@@ -1,41 +1,22 @@
-import {
-POPULATE_PRODUCTS_REQUEST,
-POPULATE_PRODUCTS_SUCCESS,
-POPULATE_PRODUCTS_ERROR
-} from '../action/productsAction'
-
-const initialState = {
-    loading: false,
-    products: [],
-    error: ''
-}
-
-const reducer = (state = initialState, action) => {
+export default function productsReducer(state = {}, action) {
     switch (action.type) {
-        case POPULATE_PRODUCTS_REQUEST:
+        case 'POPULATE_PRODUCTS':
+            const productsByCatergory = action.payload.reduce(
+                (acc, product) => {
+                    const category = product.category;
+                    return {
+                        ...acc,
+                        [category]: [...(acc[category] || []), product]
+                    };
+                },
+                {}
+            );
             return {
                 ...state,
-                loading: true,
+                products: action.payload,
+                productsByCatergory
             }
-        case POPULATE_PRODUCTS_SUCCESS:
-            const groupingCategory = action.payload.reduce((result, title) => {
-                result[title.category] ? result[title.category].push(title) : result[title.category] = [title];
-                return result;
-            }, {});
-            console.log(groupingCategory);
-            return {
-                loading: false,
-                products: groupingCategory,
-                error: ''
-            }
-        case POPULATE_PRODUCTS_ERROR: 
-            return {
-                loading: false,
-                products: [],
-                error: action.payload
-            }
-            default: return state
-
+        default:
+            return state
     }
 }
-export default reducer;

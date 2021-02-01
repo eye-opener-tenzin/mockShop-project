@@ -7,32 +7,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*{
+  padding: 0;
+  margin: 0;
+}
+
 .project-image{
   width: 100px;
-  padding-left: 70px;
+  padding-top: 15px;
+  padding-left:  auto;
+  padding-right: auto;
   
-
 }
 
 
 .container{
-  padding: 10px;
+  padding: 30px 150px;
+  width: 250px;
+  height: 250px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 10px;
-  
+  column-gap: 50px;
 }
 
-.contain-item{
+.grouping-item-list{
   width: 250px;
   height: 200px;
-  border: 5px solid black;
+  border: 1px solid black;
   margin: auto;
-
-}
-
-h3{
-  padding-left: 70px;
-
 
 }
