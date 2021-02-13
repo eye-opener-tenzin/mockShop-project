@@ -1,15 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategory } from '../action/appActions';
 import {
     makeStyles,
     CircularProgress,
     Card,
+    CardHeader,
     CardActionArea,
     CardMedia,
     CardContent,
     Typography
 } from '@material-ui/core';
+import { getProducts } from '../action/productsActions';
+
 
 const useStyles = makeStyles({
     container: {
@@ -18,10 +20,10 @@ const useStyles = makeStyles({
         justifyContent: 'center',
     },
     card: {
-        marginLeft: 8,
+        marginLeft: 20,
         width: 200,
     },
-    categoryImage: {
+    selectedProductsImage: {
         height: 250,
         margin: 20,
     
@@ -32,42 +34,49 @@ const useStyles = makeStyles({
 
 })
 
-export default function CategoryList() {
+export default function ProductsList() {
+    const selectedCategoryName = useSelector(
+        state => state.category?.selectedCategoryName
+    );
     const productsByCategory = useSelector(
         state => state.products?.productsByCategory
-    );
+    )
+
+    const dispatch = useDispatch();
 
     const styles = useStyles();
-    const dispatch = useDispatch();
-    
     return (
         <div className={styles.container}>
-            {productsByCategory != null ? (
-                Object.keys(productsByCategory).map((categoryName, index) => {
-                    console.log('cateList', Object.keys(productsByCategory));
+            { selectedCategoryName != null ? (
+                productsByCategory[selectedCategoryName].map((selectedProducts, index) => {
                     return (
                         <Card key={index} className={styles.card}>
-                            <CardActionArea onClick={() =>dispatch(setCategory(categoryName)) }>
+                            <CardActionArea onClick={() => dispatch(getProducts(selectedProducts))}>
+                                <CardHeader className={ styles.titleCase} title= {selectedProducts.category} />
                                 <CardMedia
-                                    className={styles.categoryImage}
-                                    image={productsByCategory[categoryName][0].image}
+                                    className={styles.selectedProductsImage}
+                                    height="100%"
+                                    width="100%"
+                                    image={selectedProducts.image}
+                                    
                                 />
+                                </CardActionArea>
                                 <CardContent>
                                     <Typography
                                         variant='h6'
                                         color='primary'
                                         className={styles.titleCase}
                                     >
-                                        {categoryName}
+                                        {selectedProducts.title[0]}
                                     </Typography>
                                 </CardContent>
-                            </CardActionArea>
+                            
                         </Card>
                     );
                 })
             ) : (
-                    <CircularProgress size={24} />
-                )}
+                    <CircularProgress size={24}/>
+            )}
         </div>
     );
 }
