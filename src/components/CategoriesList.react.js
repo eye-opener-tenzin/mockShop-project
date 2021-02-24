@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategory } from '../action/appActions';
+import { getCategory } from '../action/appActions';
 import {
     makeStyles,
     CircularProgress,
@@ -36,7 +36,7 @@ export default function CategoryList() {
     const productsByCategory = useSelector(
         state => state.products?.productsByCategory
     );
-
+     
     const styles = useStyles();
     const dispatch = useDispatch();
     
@@ -44,10 +44,9 @@ export default function CategoryList() {
         <div className={styles.container}>
             {productsByCategory != null ? (
                 Object.keys(productsByCategory).map((categoryName, index) => {
-                    console.log('cateList', Object.keys(productsByCategory));
                     return (
                         <Card key={index} className={styles.card}>
-                            <CardActionArea onClick={() =>dispatch(setCategory(categoryName)) }>
+                            <CardActionArea onClick={() =>dispatch(getCategory(categoryName)) }>
                                 <CardMedia
                                     className={styles.categoryImage}
                                     image={productsByCategory[categoryName][0].image}

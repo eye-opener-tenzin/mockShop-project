@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectedProductById } from '../action/productsActions';
 import {
     makeStyles,
     CircularProgress,
@@ -10,7 +11,7 @@ import {
     CardContent,
     Typography
 } from '@material-ui/core';
-import { getProducts } from '../action/productsActions';
+
 
 
 const useStyles = makeStyles({
@@ -38,20 +39,24 @@ export default function ProductsList() {
     const selectedCategoryName = useSelector(
         state => state.category?.selectedCategoryName
     );
+
+
     const productsByCategory = useSelector(
         state => state.products?.productsByCategory
     )
-
+   
     const dispatch = useDispatch();
-
     const styles = useStyles();
+
+    
+    
     return (
         <div className={styles.container}>
             { selectedCategoryName != null ? (
                 productsByCategory[selectedCategoryName].map((selectedProducts, index) => {
                     return (
                         <Card key={index} className={styles.card}>
-                            <CardActionArea onClick={() => dispatch(getProducts(selectedProducts))}>
+                            <CardActionArea onClick={() => dispatch(selectedProductById(selectedProducts.id))}>
                                 <CardHeader className={ styles.titleCase} title= {selectedProducts.category} />
                                 <CardMedia
                                     className={styles.selectedProductsImage}
@@ -60,17 +65,16 @@ export default function ProductsList() {
                                     image={selectedProducts.image}
                                     
                                 />
-                                </CardActionArea>
                                 <CardContent>
                                     <Typography
                                         variant='h6'
                                         color='primary'
                                         className={styles.titleCase}
                                     >
-                                        {selectedProducts.title[0]}
+                                        {selectedProducts.title}
                                     </Typography>
                                 </CardContent>
-                            
+                            </CardActionArea>
                         </Card>
                     );
                 })

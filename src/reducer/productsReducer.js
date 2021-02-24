@@ -1,6 +1,6 @@
 export default function productsReducer(state = {}, action) {
     switch (action.type) {
-        case 'POPULATE_PRODUCTS':
+        case 'SET_PRODUCTS':
             const productsByCategory = action.payload.reduce(
                 (acc, product) => {
                     const category = product.category;
@@ -11,10 +11,27 @@ export default function productsReducer(state = {}, action) {
                 },
                 {}
             );
+            const productsById = action.payload.reduce(
+                (result, products) => {
+                    result[products.id] = products;
+                    return result;
+                    
+            },
+                {}
+            );
             return {
                 ...state,
                 products: action.payload,
-                productsByCategory
+                productsByCategory,
+                productsById 
+                
+            }
+        case 'SELECTED_PRODUCT_ID':
+            return {
+                ...state,
+                selectedProductById: action.payload,
+                activePage: 'Product'
+             
             }
         default:
             return state
