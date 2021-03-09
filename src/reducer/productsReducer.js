@@ -1,3 +1,11 @@
+import { PAGES } from '../reducer/appReducer';
+
+const initialState = {
+    productsByCategory: {},
+    productsById: {},
+
+}
+
 export default function productsReducer(state = {}, action) {
     switch (action.type) {
         case 'SET_PRODUCTS':
@@ -30,7 +38,7 @@ export default function productsReducer(state = {}, action) {
             return {
                 ...state,
                 selectedProductById: action.payload,
-                activePage: 'Product'
+                activePage: PAGES.PRODUCT
              
             }
         default:

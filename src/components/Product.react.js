@@ -1,21 +1,16 @@
 import React, {useState}  from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
     makeStyles,
     Card,
-    CardActions,
     CardMedia,
-    CardContent,
     Typography,
     FormControl,
     InputLabel,
-    Select,
-    MenuItem,
     NativeSelect,
-    Button
-
-    
+    Button,
+    Input
 } from '@material-ui/core';
 
 
@@ -55,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
     description: {
         paddingTop: 20,
+        paddingBottom: 20,
         fontSize: 15,
     },
 
@@ -74,16 +70,21 @@ const useStyles = makeStyles((theme) => ({
     quality: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: 30,
 
     },
 
     qualityInfo: {
-        marginTop: 20,
+        marginTop: 30,
     },
 
-    price: {
-       marginTop: 30,
+    QuantityInput: {
+        width: 50,
+    },
+
+    priceQuantity: {
+        display: 'flex',
+        flexDirection: 'column'
     },
 
     button: {
@@ -94,24 +95,20 @@ const useStyles = makeStyles((theme) => ({
 
 })
 )
+
+const SIZE = ['S', 'M', 'L', 'XL']
+
 export default function Product() {
 
     const [size, setSize] = useState(' ');
-    const [quantity, setQuantity] = useState(' ');
   
-    const productsById = useSelector(
-        state => state.products?.productsById
-    
+    const {productsById, selectedProductById } = useSelector(
+        state => state.products
     )
 
     const selectedCategoryName = useSelector(
         state => state.category?.selectedCategoryName
     )
-    
-    const selectedProductById = useSelector(
-        state => state.products?.selectedProductById
-    )
-
 
     const styles = useStyles();
     
@@ -121,11 +118,8 @@ export default function Product() {
         setSize(event.target.value);
     };
 
-    const quantityHandleChange = (event) => {
-        setQuantity(event.target.value);
-    };
 
-    const clothing = selectedCategoryName === 'men clothing' || selectedCategoryName === 'women clothing';
+    const isClothing = selectedCategoryName === 'men clothing' || selectedCategoryName === 'women clothing';
 
     return (
         <div className={styles.container}>
@@ -133,8 +127,6 @@ export default function Product() {
                         <div className={styles.container}>
                                         <CardMedia
                                             className={styles.productImage}
-                                            height='100%'
-                                            width='100%'
                                             image={product.image}
                                         />
                         </div>
@@ -150,50 +142,40 @@ export default function Product() {
                                                 color="grey"
                                                 className={styles.description}>
                                                         {product.description}
-                                        </Typography>
-                                              {clothing ?
-                                        <div className={styles.clothing}>     
-                                                    <h3 className={styles.sizeTitle}>Size</h3>
-                                         <NativeSelect
-                                                    className={styles.size}
-                                                    value={size}
-                                                    onChange={sizeHandleChange}>
-                                                        <option aria-label="None" value="" />
-                                                        <option value={'S'}>S</option>
-                                                        <option value={'M'}>M</option>
-                                                        <option value={'L'}>L</option>
-                                                        <option value={'XL'}>XL</option>
-                                                </NativeSelect> 
-                                    </div>
-                                              :   ' '}
-                                    <FormControl>
-                                           <Typography 
+                                         </Typography>
+                                        <Typography 
                                                      className={styles.price}
                                                      variant="p"
                                                     color="grey">
                                                     Price: ${product.price}
-                                            </Typography>
+                    </Typography>
+                    <div className={styles.priceQuantity}>
+                                              {isClothing ?
+                                        <div className={styles.clothing}>     
+                                                    <h3 className={styles.sizeTitle}>Size</h3>
+                                            <NativeSelect
+                                                    className={styles.size}
+                                                    value={size}
+                                                    onChange={sizeHandleChange}>
+                                                        <option aria-label="None" value="" />
+                                                        {SIZE.map(size => (
+                                                            <option key={size} value={size}>{size}</option>
+                                                        ))}
+                                                                            
+                                            </NativeSelect> 
+                                    </div>
+                                              :   ' '}
                                            <div className={styles.quantity}>
-                                                  <h5 className={styles.qualityInfo}>Quantity</h5>
-                                                  <NativeSelect
-                                                        value={quantity}
-                                                        onChange={quantityHandleChange}>
-                                                              <option aria-label="None" value="" />
-                                                             <option value={1}>1</option>
-                                                             <option value={2}>2</option>
-                                                             <option value={3}>3</option>
-                                                             <option value={3}>4</option>
-                                                             <option value={3}>5</option>
-                                                             <option value={3}>6</option>
-                                                             <option value={3}>7</option>
-                                                            <option value={3}>8</option>
-                                                    </NativeSelect>
-                                  </div>  
+                                                <FormControl>
+                                                    <InputLabel htmlFor="quantity">Quantity</InputLabel>
+                                                    <Input className={styles.QuantityInput}  id="quantity" type="number" defaultValue={0} />
+                                                </FormControl>          
+                            </div>  
+                            </div>
                                              <Button variant="contained" color="primary" component="span" className={styles.button}>
                                                   ADD TO CART
                                               </Button>
-                                    </FormControl>
-                        </div> 
+                    </div> 
                  </Card>
        </div>
     );

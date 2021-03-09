@@ -36,7 +36,7 @@ export default function CategoryList() {
     const productsByCategory = useSelector(
         state => state.products?.productsByCategory
     );
-     
+    
     const styles = useStyles();
     const dispatch = useDispatch();
     
