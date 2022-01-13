@@ -13,6 +13,7 @@ import {
 
 const useStyles = makeStyles({
     container: {
+        position: 'relative',
         padding: '20px',
         display: 'flex',
         justifyContent: 'center',
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
     card: {
         marginLeft: 8,
         width: 200,
+        flexGrow: 1,
     },
     categoryImage: {
         height: 250,
@@ -32,7 +34,7 @@ const useStyles = makeStyles({
 
 })
 
-export default function CategoryList() {
+export default function CategoryList( ) {
     const productsByCategory = useSelector(
         state => state.products?.productsByCategory
     );

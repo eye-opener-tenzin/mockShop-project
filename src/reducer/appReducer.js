@@ -1,14 +1,16 @@
 import { SET_CATEGORY } from "../action/appActions"
-import { SELECTED_PRODUCT_ID } from "../action/appActions"
+import { SELECTED_PRODUCT_BY_ID } from "../action/appActions"
 import { NAVIGATE_TO_HOME_PAGE } from "../action/appActions"
 import { SEARCHBAR_INPUT } from "../action/appActions"
 import { CLEAR_SEARCHBAR  } from "../action/appActions"
 import { SEARCHBAR_RESULT } from "../action/appActions"
+
  
 export const PAGES = {
     HOME: 'HOME',
     CATEGORY: 'CATEGORY',
-    PRODUCT: 'PRODUCT'
+    PRODUCT: 'PRODUCT',
+    SEARCH: 'SEARCH',
 }
 const initialState = {
     activePage: PAGES.HOME,
@@ -16,6 +18,8 @@ const initialState = {
     selectedProductById: null,
     searchProduct: '',
     clearSearchProduct: '',
+   
+
 
 }
 export default function appReducer(state = initialState, action) {
@@ -29,27 +33,33 @@ export default function appReducer(state = initialState, action) {
                 activePage: PAGES.CATEGORY,
                 selectedCategoryName: action.category,
             };
-        case SELECTED_PRODUCT_ID:
+        case SELECTED_PRODUCT_BY_ID:
             return {
                 ...state,
                 activePage: PAGES.PRODUCT,
-                selectedProductById: action.category
+                selectedProductById: action.product
             };
         case SEARCHBAR_INPUT:
             return {
                 ...state,
-                searchProduct: action.payload
+                activePage: PAGES.SEARCH,
+                searchProduct: action.payload,
+
+                
             };
         case CLEAR_SEARCHBAR:
-            return initialState;
-        
+            return {
+                initialState,
+                
+            };
         case SEARCHBAR_RESULT:
             return {
                 ...state,
                 selectedProductById: action.payload,
                 activePage: PAGES.PRODUCT,
-                searchItem: '',
+                searchProduct: '',
             };
+       
         default:
             return state
     }

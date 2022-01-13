@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from  'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +9,9 @@ import InputBase from '@material-ui/core/InputBase';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import { setHomePage } from '../action/appActions';
+import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import { isCartToggle } from '../action/cartActions'
 
 
 
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginLeft: 0,
+    marginRight: 20,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
@@ -70,14 +73,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function NavigationPage() {
+export default function NavigationPage( { cart }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [cartCount, setCartCount] = useState(0);
+ 
+  // useEffect(() => {
+  //   let count = 0;
+  //   cart.forEach(item => {
+  //     count += item.qty
+  //   })
+  //   setCartCount(count)
+  // }, [cart, cartCount])
+
 
 const onChange = (event) => {
   let string = event.target.value
      dispatch({type: 'SEARCHBAR_INPUT', payload: string})
-    console.log('string', string)
 }
 
   return (
@@ -108,7 +120,19 @@ const onChange = (event) => {
               inputProps={{ 'aria-label': 'search' }}
               onChange={onChange}
           />
-        </div>
+          </div>
+          <IconButton
+            value="cart"
+            color='inherit'
+            
+            className={classes.cartButton}
+            onClick={() => dispatch(isCartToggle())}>
+            {isCartToggle === true ? (
+              <ShoppingCartRoundedIcon size='medium' />
+            ) : (
+              <ShoppingCartOutlinedIcon size='medium' />
+            )}
+          </IconButton>
       </Toolbar>
     </AppBar>
   </div>

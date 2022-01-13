@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
         width: 350,
         display: 'flex',
         flexDirection: 'column',
+        flexGrow: 1,
         
        
     },
@@ -65,7 +66,9 @@ export default function Category() {
     const styles = useStyles();
 
     const products = productsByCategory[selectedCategoryName]
-
+    if (!products) {
+        return null
+    }
     return (
         <div className={styles.container}>
           

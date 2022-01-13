@@ -1,5 +1,6 @@
 import React, {useState}  from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../action/cartActions';
 
 import {
     makeStyles,
@@ -18,17 +19,18 @@ import {
 
 const useStyles = makeStyles((theme) => ({
     container: {
+        position: 'relative',
         padding: '20px',
         display: 'flex',
         justifyContent: 'center',
 
     },
     card: {
+        position: 'relative',
         display: 'flex',
         justifyContent: 'center',
-        marginLeft: 20,
-        padding: '50px',
-        width: '80%'
+        flexGrow: 1,
+    
 
 
     },
@@ -101,7 +103,7 @@ const SIZE = ['S', 'M', 'L', 'XL']
 export default function Product() {
 
     const [size, setSize] = useState(' ');
-  
+    const dispatch = useDispatch()
     const {productsById, selectedProductById } = useSelector(
         state => state.products
     )
@@ -113,6 +115,7 @@ export default function Product() {
     const styles = useStyles();
     
     const product = productsById[selectedProductById]
+
     
     const sizeHandleChange = (event) => {
         setSize(event.target.value);
@@ -172,7 +175,7 @@ export default function Product() {
                                                 </FormControl>          
                             </div>  
                             </div>
-                                             <Button variant="contained" color="primary" component="span" className={styles.button}>
+                                             <Button variant="contained" color="primary" component="span" className={styles.button} onClick={() => dispatch(addToCart())}>
                                                   ADD TO CART
                                               </Button>
                     </div> 

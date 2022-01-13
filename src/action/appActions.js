@@ -1,9 +1,10 @@
 export const SET_CATEGORY = 'SET_CATEGORY';
-export const SELECTED_PRODUCT_ID = "SELECTED_PRODUCT_ID"
+export const SELECTED_PRODUCT_BY_ID = "SELECTED_PRODUCT_ID"
 export const NAVIGATE_TO_HOME_PAGE = 'NAVIGATE_TO_HOME_PAGE';
 export const SEARCHBAR_INPUT  = 'SEARCHBAR_INPUT';
 export const CLEAR_SEARCHBAR = 'CLEAR_SEARCHBAR';
 export const SEARCHBAR_RESULT = 'SEARCHBAR_RESULT';
+
 
 export const getCategory = category => ({
     type: 'SET_CATEGORY',
@@ -35,3 +36,4 @@ export const searchBarResult = searchBarResult => ({
     payload: searchBarResult
 
 })
+

@@ -1,7 +1,7 @@
 import {React} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {searchBarResult} from '../action/appActions';
-import {clearSearchBar} from '../action/appActions';
+import {clearSearchBar, searchBarInput} from '../action/appActions';
 import Backdrop from '@material-ui/core/Backdrop';
 
 import { 
@@ -24,7 +24,9 @@ import {
   
       card: {
           marginLeft: 8,
-          width: 200,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column'
       },
   
       categoryImage: {
@@ -38,7 +40,8 @@ import {
       clearSearch: {
           position: 'relative',
           display: 'flex',
-          right: 30,
+          right: 50,
+          top: 30,
           cursor: 'pointer',
           flexGrow: 1,
          alignSelf: 'flex-end',
@@ -48,22 +51,20 @@ import {
       backdrop: {
         backgroundColor: '#fff',
         zIndex: theme.zIndex.drawer +1,
-        top: 72,
+        top: 62,
         display: 'flex',
          flexDirection: 'column',
-        height: '100%',
+        
       }
   }));
     
 function SearchBar({ searchProduct }) {
- console.log(searchProduct)
      const dispatch = useDispatch();
     const styles = useStyles();
     const products  = useSelector(state => state.products.products)
     if (!products) {
         return null
     }
-    console.log('product', products)
    
   const searchProductsList =  products.filter(product => product.title.toLowerCase().indexOf(searchProduct.toLowerCase()) !== -1 || 
     product.description.toLowerCase().indexOf(searchProduct.toLowerCase()) !== -1 ||
@@ -71,7 +72,7 @@ function SearchBar({ searchProduct }) {
     
     return (
         <Backdrop className={styles.backdrop} open={true}>
-            <h3 className={styles.clearSearch}variant="outlined" color="secondary" onClick={()=>dispatch(clearSearchBar())}>
+            <h3 className={styles.clearSearch} variant="outlined" color="secondary" onClick={() => dispatch(clearSearchBar())}>
                 Clear Search 
              </h3>
             <h1>{searchProduct}</h1>
